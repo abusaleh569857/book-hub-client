@@ -1,21 +1,34 @@
-import "react-toastify/dist/ReactToastify.css";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+// Frontend: UpdateBook.jsx
 
-const AddBook = () => {
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const UpdateBook = () => {
+  const { id } = useParams(); // Get book ID from URL
+  const navigate = useNavigate();
   const [bookData, setBookData] = useState({
     image: "",
     name: "",
-    quantity: "",
     author: "",
     category: "Novel",
-    description: "",
-    about: "",
     rating: "",
   });
 
-  const navigate = useNavigate();
+  // Fetch existing book data
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/books/${id}`);
+        const data = await response.json();
+        setBookData(data);
+      } catch (error) {
+        console.error("Error fetching book:", error);
+      }
+    };
+    fetchBook();
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,26 +39,22 @@ const AddBook = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/add-book", {
-        method: "POST",
+      const response = await fetch(`http://localhost:5000/books/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(bookData),
       });
 
-      const responseData = await response.json(); // Parse response JSON
-      console.log("Response Data:", responseData); // Log the parsed data
-
       if (response.ok) {
-        toast.success("Book added successfully!");
+        toast.success("Book updated successfully!");
         setTimeout(() => navigate("/all-books"), 2000);
       } else {
-        console.log("Server Error:", responseData); // Log error from the server
-        toast.error("Failed to add book.");
+        toast.error("Failed to update book.");
       }
     } catch (error) {
-      console.error("Fetch Error:", error); // Catch and log fetch errors
+      console.error("Error:", error);
       toast.error("An error occurred. Please try again.");
     }
   };
@@ -53,58 +62,43 @@ const AddBook = () => {
   return (
     <div className="container mx-auto p-4">
       <ToastContainer />
-      <h1 className="text-2xl font-bold mb-4">Add a New Book</h1>
-      <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+      <h1 className="text-2xl font-bold mb-4">Update Book</h1>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block font-medium">Image URL:</label>
+          <label>Image URL:</label>
           <input
             type="text"
             name="image"
             value={bookData.image}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
             required
+            className="w-full p-2 border rounded"
           />
         </div>
-
         <div>
-          <label className="block font-medium">Book Title:</label>
+          <label>Book Title:</label>
           <input
             type="text"
             name="name"
             value={bookData.name}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
             required
+            className="w-full p-2 border rounded"
           />
         </div>
-
         <div>
-          <label className="block font-medium">Quantity:</label>
-          <input
-            type="number"
-            name="quantity"
-            value={bookData.quantity}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block font-medium">Author Name:</label>
+          <label>Author Name:</label>
           <input
             type="text"
             name="author"
             value={bookData.author}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
             required
+            className="w-full p-2 border rounded"
           />
         </div>
-
         <div>
-          <label className="block font-medium">Category:</label>
+          <label>Category:</label>
           <select
             name="category"
             value={bookData.category}
@@ -119,31 +113,8 @@ const AddBook = () => {
             <option value="Sci-Fi">Sci-Fi</option>
           </select>
         </div>
-
         <div>
-          <label className="block font-medium">Short Description:</label>
-          <textarea
-            name="description"
-            value={bookData.description}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          ></textarea>
-        </div>
-
-        <div>
-          <label className="block font-medium">About the Book:</label>
-          <textarea
-            name="about"
-            value={bookData.about}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          ></textarea>
-        </div>
-
-        <div>
-          <label className="block font-medium">Rating (1-5):</label>
+          <label>Rating (1-5):</label>
           <input
             type="number"
             name="rating"
@@ -151,20 +122,19 @@ const AddBook = () => {
             onChange={handleChange}
             min="1"
             max="5"
-            className="w-full p-2 border rounded"
             required
+            className="w-full p-2 border rounded"
           />
         </div>
-
         <button
           type="submit"
           className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
         >
-          Add Book
+          Update Book
         </button>
       </form>
     </div>
   );
 };
 
-export default AddBook;
+export default UpdateBook;
