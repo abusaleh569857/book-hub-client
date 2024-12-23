@@ -12,6 +12,7 @@ import AuthProvider from "./components/Provider/AuthProvider.jsx";
 import AddBook from "./components/AddBook.jsx";
 import AllBooks from "./components/AllBooks.jsx";
 import UpdateBook from "./components/UpdateBook.jsx";
+import CategoryPage from "./components/CategoryPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "/update-book/:id",
         element: <UpdateBook></UpdateBook>,
+      },
+      {
+        path: "/category/:category",
+        element: <CategoryPage></CategoryPage>,
       },
     ],
   },
