@@ -1,12 +1,10 @@
-// Frontend: UpdateBook.jsx
-
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const UpdateBook = () => {
-  const { id } = useParams(); // Get book ID from URL
+  const { id } = useParams();
   const navigate = useNavigate();
   const [bookData, setBookData] = useState({
     image: "",
@@ -15,28 +13,40 @@ const UpdateBook = () => {
     category: "Novel",
     rating: "",
   });
+  const [loading, setLoading] = useState(true);
 
-  // Fetch existing book data
+  // Fetch book data
   useEffect(() => {
-    const fetchBook = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/books/${id}`);
-        const data = await response.json();
+    fetch(`http://localhost:5000/book/${id}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch book data.");
+        }
+        return res.json();
+      })
+      .then((data) => {
         setBookData(data);
-      } catch (error) {
-        console.error("Error fetching book:", error);
-      }
-    };
-    fetchBook();
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Failed to fetch book details.");
+        setLoading(false);
+      });
   }, [id]);
 
+  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBookData({ ...bookData, [name]: value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const updatedBook = { ...bookData };
+    delete updatedBook._id; // Remove _id before sending
 
     try {
       const response = await fetch(`http://localhost:5000/books/${id}`, {
@@ -44,20 +54,24 @@ const UpdateBook = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(bookData),
+        body: JSON.stringify(updatedBook), // Send updatedBook without _id
       });
 
-      if (response.ok) {
-        toast.success("Book updated successfully!");
-        setTimeout(() => navigate("/all-books"), 2000);
-      } else {
-        toast.error("Failed to update book.");
+      if (!response.ok) {
+        throw new Error("Failed to update book.");
       }
+
+      toast.success("Book updated successfully!");
+      setTimeout(() => navigate("/all-books"), 2000); // Navigate back after success
     } catch (error) {
       console.error("Error:", error);
-      toast.error("An error occurred. Please try again.");
+      toast.error(error.message || "An error occurred. Please try again.");
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="container mx-auto p-4">
