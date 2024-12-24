@@ -19,32 +19,32 @@ const SliderComponent = () => {
       <Slider {...settings}>
         <div className="relative">
           <img
-            src="https://i.ibb.co.com/ZcQ7mnH/visa3.png"
+            src="https://i.ibb.co.com/2cYzqsy/7850051.jpg"
             alt="Slide 1"
             className="w-full h-80 object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-10 flex items-center justify-center text-white text-xl font-bold">
-            <p>Explore Amazing Visa Options</p>
+            <p>BookHub: Your Digital Library</p>
           </div>
         </div>
         <div className="relative">
           <img
-            src="https://i.ibb.co.com/N3rS5Bf/visa4.png"
+            src="https://i.ibb.co.com/YjVyjmm/book1.jpg"
             alt="Slide 2"
             className="w-full h-80 object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-10 flex items-center justify-center text-white text-xl font-bold">
-            <p>Fast and Reliable Visa Processing</p>
+            <p>BookHub: Discover and Borrow Books</p>
           </div>
         </div>
         <div className="relative">
           <img
-            src="https://i.ibb.co.com/LdQjdrd/visa6.png"
+            src="https://i.ibb.co.com/tc7W0dr/book2.jpg"
             alt="Slide 3"
             className="w-full h-80 object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-10 flex items-center justify-center text-white text-xl font-bold">
-            <p>Your Dream Destination Awaits</p>
+            <p>BookHub: Explore, Read, Borrow</p>
           </div>
         </div>
       </Slider>
