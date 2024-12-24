@@ -22,8 +22,46 @@ const AddBook = () => {
     setBookData({ ...bookData, [name]: value });
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const response = await fetch("http://localhost:5000/add-book", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(bookData),
+  //     });
+
+  //     const responseData = await response.json(); // Parse response JSON
+  //     console.log("Response Data:", responseData); // Log the parsed data
+
+  //     if (response.ok) {
+  //       toast.success("Book added successfully!");
+  //       setTimeout(() => navigate("/all-books"), 2000);
+  //     } else {
+  //       console.log("Server Error:", responseData); // Log error from the server
+  //       toast.error("Failed to add book.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Fetch Error:", error); // Catch and log fetch errors
+  //     toast.error("An error occurred. Please try again.");
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Convert the quantity to a number
+    const updatedBookData = {
+      ...bookData,
+      quantity: Number(bookData.quantity), // Ensure quantity is a number
+    };
+
+    // Log the type of quantity to confirm it's a number
+    console.log("Quantity Type:", typeof updatedBookData.quantity);
+    console.log("Updated Book Data:", updatedBookData); // Log the updated data
 
     try {
       const response = await fetch("http://localhost:5000/add-book", {
@@ -31,7 +69,7 @@ const AddBook = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(bookData),
+        body: JSON.stringify(updatedBookData), // Send the updated data
       });
 
       const responseData = await response.json(); // Parse response JSON

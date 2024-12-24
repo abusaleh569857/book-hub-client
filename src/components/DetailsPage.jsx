@@ -1,25 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Modal, Button } from "react-bootstrap"; // Using Bootstrap for the modal
-import { useToast } from "react-toastify"; // For toast notifications
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AuthContext } from "./Provider/AuthProvider";
 
-const DetailPage = () => {
+const DetailsPage = () => {
+  const { user } = useContext(AuthContext);
+
   const { id } = useParams(); // Get book ID from URL
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [returnDate, setReturnDate] = useState("");
-  const [user, setUser] = useState(null); // Logged-in user info
   const [isBookBorrowed, setIsBookBorrowed] = useState(false);
-  const toast = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch the book details
     const fetchBookDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/books/${id}`);
+        const response = await fetch(`http://localhost:5000/allbooks/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch book details");
         }
@@ -33,22 +34,33 @@ const DetailPage = () => {
     };
 
     fetchBookDetails();
-  }, [id, navigate]);
-
+  }, [id]);
   const handleBorrow = async () => {
+    if (!user || !user.uid) {
+      toast.error("You need to be logged in to borrow books.");
+      return;
+    }
+
     if (book.quantity <= 0) {
       toast.error("Book is out of stock.");
       return;
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/books/borrow/${id}`, {
+      const response = await fetch(`http://localhost:5000/borrowedbooks`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: user._id,
+          firebaseUID: user.uid, // User UID
+          email: user.email, // User Email
+          bookId: book._id, // Book ID
+          bookName: book.name,
+          author: book.author,
+          category: book.category,
+          image: book.image,
+          quantity: 1, // Initial quantity
           returnDate,
         }),
       });
@@ -57,23 +69,9 @@ const DetailPage = () => {
         throw new Error("Failed to borrow the book");
       }
 
-      // Decrement book quantity using $inc
-      const updateResponse = await fetch(
-        `http://localhost:5000/books/${id}/update`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            quantity: -1,
-          }),
-        }
-      );
-
-      if (!updateResponse.ok) {
-        throw new Error("Failed to update book quantity");
-      }
+      await fetch(`http://localhost:5000/books/decrement/${book._id}`, {
+        method: "PUT",
+      });
 
       toast.success("Book borrowed successfully!");
       setIsBookBorrowed(true);
@@ -100,49 +98,49 @@ const DetailPage = () => {
         className="w-full h-96 object-cover"
       />
 
-      <Button
-        className="mt-4"
+      <button
+        className="btn btn-primary mt-4"
         onClick={() => setShowModal(true)}
         disabled={book.quantity <= 0 || isBookBorrowed}
       >
         Borrow
-      </Button>
+      </button>
 
-      {/* Borrow Modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Borrow Book</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div>
-            <label className="block mb-2">Return Date</label>
-            <input
-              type="date"
-              value={returnDate}
-              onChange={(e) => setReturnDate(e.target.value)}
-              className="p-2 border rounded mb-4 w-full"
-            />
-            <div>
-              <p>
-                <strong>Name:</strong> {user?.name}
-              </p>
-              <p>
-                <strong>Email:</strong> {user?.email}
-              </p>
+      {/* DaisyUI Modal */}
+      {showModal && (
+        <dialog id="borrow_modal" className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Borrow Book</h3>
+            <div className="py-4">
+              <label className="block mb-2">Return Date</label>
+              <input
+                type="date"
+                value={returnDate}
+                onChange={(e) => setReturnDate(e.target.value)}
+                className="p-2 border rounded mb-4 w-full"
+              />
+              <div>
+                <p>
+                  <strong>Name:</strong> {user?.displayName || "N/A"}
+                </p>
+                <p>
+                  <strong>Email:</strong> {user?.email || "N/A"}
+                </p>
+              </div>
+            </div>
+            <div className="modal-action">
+              <button className="btn" onClick={() => setShowModal(false)}>
+                Close
+              </button>
+              <button className="btn btn-primary" onClick={handleBorrow}>
+                Submit
+              </button>
             </div>
           </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleBorrow}>
-            Submit
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        </dialog>
+      )}
     </div>
   );
 };
 
-export default DetailPage;
+export default DetailsPage;

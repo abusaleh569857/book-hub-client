@@ -13,6 +13,7 @@ import AddBook from "./components/AddBook.jsx";
 import AllBooks from "./components/AllBooks.jsx";
 import UpdateBook from "./components/UpdateBook.jsx";
 import CategoryPage from "./components/CategoryPage.jsx";
+import DetailsPage from "./components/DetailsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "/category/:category",
         element: <CategoryPage></CategoryPage>,
+      },
+      {
+        path: "/book-details/:id",
+        element: <DetailsPage></DetailsPage>,
       },
     ],
   },
