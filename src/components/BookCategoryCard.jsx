@@ -12,7 +12,7 @@ const BookCategoryCard = ({ category }) => {
       <h3 className="text-xl font-semibold">{category}</h3>
       <Link
         to={`/category/${category.toLowerCase()}`} // Link to category page
-        className="mt-4 inline-block text-blue-600 hover:text-blue-800"
+        className="mt-4 inline-block text-blue-600 hover:text-blue-800 "
       >
         See Books
       </Link>

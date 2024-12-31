@@ -7,37 +7,37 @@ const UpcomingBookReleases = () => {
       title: "The Last Chapter",
       category: "Novel",
       releaseDate: "January 2025",
-      image: "novel-release.jpg",
+      image: "https://i.ibb.co.com/jL3wPP6/book6.jpg",
     },
     {
       title: "The Silent Scream",
       category: "Thriller",
       releaseDate: "February 2025",
-      image: "thriller-release.jpg",
+      image: "https://i.ibb.co.com/sPXK995/book7.jpg",
     },
     {
       title: "The History of Empires",
       category: "History",
       releaseDate: "March 2025",
-      image: "history-release.jpg",
+      image: "https://i.ibb.co.com/d7qbK2L/book5.jpg",
     },
     {
       title: "The Drama Unfolds",
       category: "Drama",
       releaseDate: "April 2025",
-      image: "drama-release.jpg",
+      image: "https://i.ibb.co.com/NFS6PZz/book3.jpg",
     },
     {
       title: "Space Odyssey: Beyond Earth",
       category: "Sci-Fi",
       releaseDate: "May 2025",
-      image: "scifi-release.jpg",
+      image: "https://i.ibb.co.com/ZMCzHdd/book4.jpg",
     },
     {
       title: "A Mystery to Unravel",
       category: "Thriller",
       releaseDate: "June 2025",
-      image: "mystery-release.jpg",
+      image: "https://i.ibb.co.com/TtdYLFt/book8.jpg",
     },
   ];
 
