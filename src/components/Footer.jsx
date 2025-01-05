@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Logo and Description */}
-          <div>
+          <div className="md:ml-4">
             <h1 className="text-2xl font-bold">BookHub</h1>
             <p className="text-gray-400 mt-2">
               BookHub allows users to borrow books online. The platform features
@@ -17,7 +17,7 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className="md:ml-28">
             <h2 className="text-xl font-semibold mb-4">Quick Links</h2>
             <ul className="space-y-2">
               <li>
@@ -44,7 +44,7 @@ const Footer = () => {
           </div>
 
           {/* Contact Information */}
-          <div>
+          <div className="md:ml-16">
             <h2 className="text-xl font-semibold mb-4">Contact Us</h2>
             <p>Email: support@bookhub.com</p>
             <p>Phone: +880 1534 587 570</p>
