@@ -6,7 +6,7 @@ import UpcomingBookReleases from "./UpcomingBookReleases";
 import UseTitle from "./Title/UseTitle";
 
 const Home = () => {
-  UseTitle("Home - BookHub");
+  UseTitle();
   return (
     <div className="home-container overflow-x-hidden">
       {/* Header Message */}

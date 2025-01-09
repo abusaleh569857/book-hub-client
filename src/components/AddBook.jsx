@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import UseTitle from "./Title/UseTitle";
 
 const AddBook = () => {
+  UseTitle();
   const [bookData, setBookData] = useState({
     image: "",
     name: "",
@@ -60,7 +61,6 @@ const AddBook = () => {
       toast.error("An error occurred. Please try again.");
     }
   };
-  UseTitle();
 
   return (
     <div className="container mx-auto p-4">

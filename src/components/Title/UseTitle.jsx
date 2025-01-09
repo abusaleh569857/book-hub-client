@@ -1,14 +1,3 @@
-// import { useEffect } from "react";
-
-// const UseTitle = (title) => {
-//   useEffect(() => {
-//     document.title = title;
-//   }, [title]);
-// };
-
-// export default UseTitle;
-
-// src/hooks/useTitle.js
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
