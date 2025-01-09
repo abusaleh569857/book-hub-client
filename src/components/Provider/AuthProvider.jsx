@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import axios from "axios";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -41,9 +42,23 @@ const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     setLoading(true);
-    return signOut(auth).finally(() => {
+    try {
+      // Send a request to the server to clear the JWT cookie
+      await axios.post(
+        "http://localhost:5000/logout",
+        {},
+        { withCredentials: true }
+      );
+
+      // Sign out from Firebase
+      await signOut(auth);
+
+      console.log("Successfully logged out");
+    } catch (error) {
+      console.error("Error during logout:", error.message);
+    } finally {
       setLoading(false);
-    });
+    }
   };
 
   const updateUserProfile = (updatedData) => {

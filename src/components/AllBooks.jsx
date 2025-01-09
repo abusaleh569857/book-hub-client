@@ -1,240 +1,9 @@
-// import React, { useEffect, useState } from "react";
-// import { Link, useNavigate } from "react-router-dom";
-// import axios from "axios"; // Importing axios
-// import { useContext } from "react";
-// import { AuthContext } from "./Provider/AuthProvider";
-// import UseTitle from "./Title/UseTitle";
-
-// const AllBooks = () => {
-//   UseTitle();
-//   const [books, setBooks] = useState([]);
-//   const [filteredBooks, setFilteredBooks] = useState([]);
-//   const [loading, setLoading] = useState(true); // State to track loading
-//   const [error, setError] = useState(null); // State to track errors
-//   const [showAvailable, setShowAvailable] = useState(false); // State to toggle the filter
-//   const { user } = useContext(AuthContext);
-//   const navigate = useNavigate();
-
-//   // Fetch all books from the database using axios
-//   useEffect(() => {
-//     axios
-//       .get("http://localhost:5000/all-books", {
-//         params: { email: user.email },
-//         withCredentials: true, // Ensures cookies are sent
-//       }) // Axios GET request
-//       .then((res) => {
-//         setBooks(res.data); // Accessing response data directly
-//         setFilteredBooks(res.data); // Initially show all books
-//         setLoading(false); // Set loading to false after fetching data
-//       })
-//       .catch((error) => {
-//         setError("Error fetching books"); // Set error message if something goes wrong
-//         setLoading(false); // Set loading to false even if there's an error
-//       });
-//   }, [user.email]);
-
-//   // Filter function to toggle between all books and only available books
-//   const filterAvailableBooks = () => {
-//     setShowAvailable(!showAvailable);
-//     if (showAvailable) {
-//       setFilteredBooks(books); // If filter is toggled off, show all books
-//     } else {
-//       setFilteredBooks(books.filter((book) => book.quantity > 0)); // Show only books with quantity > 0
-//     }
-//   };
-
-//   return (
-//     <div className="container mx-auto p-4">
-//       <h1 className="text-2xl font-bold mb-4">All Books</h1>
-
-//       {/* Filter Button */}
-//       <div className="text-center mb-4">
-//         <button
-//           onClick={filterAvailableBooks}
-//           className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-//         >
-//           {showAvailable ? "Show All Books" : "Show Available Books"}
-//         </button>
-//       </div>
-
-//       {/* Loading and Error Messages */}
-//       {loading && <p className="text-center">Loading books...</p>}
-//       {error && <p className="text-center text-red-600">{error}</p>}
-
-//       {/* Book List */}
-//       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-//         {filteredBooks.length === 0 ? (
-//           <p className="text-center">No books found.</p>
-//         ) : (
-//           filteredBooks.map((book) => (
-//             <div
-//               key={book._id}
-//               className="border rounded-lg shadow-md p-4 bg-white"
-//             >
-//               <img
-//                 src={book.image}
-//                 alt={book.name}
-//                 className="w-full h-48 object-cover rounded-md"
-//               />
-//               <h2 className="text-lg font-semibold mt-2">{book.name}</h2>
-//               <p className="text-sm text-gray-600">Author: {book.author}</p>
-//               <p className="text-sm text-gray-600">Category: {book.category}</p>
-//               <p className="text-sm text-gray-600">Rating: {book.rating}/5</p>
-//               <p className="text-sm text-gray-600">Quantity: {book.quantity}</p>
-
-//               <Link to={`/update-book/${book._id}`}>
-//                 <button className="mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
-//                   Update
-//                 </button>
-//               </Link>
-//             </div>
-//           ))
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AllBooks;
-
-// import React, { useEffect, useState } from "react";
-// import { Link } from "react-router-dom";
-// import axios from "axios";
-// import { useContext } from "react";
-// import { AuthContext } from "./Provider/AuthProvider";
-// import UseTitle from "./Title/UseTitle";
-
-// const AllBooks = () => {
-//   UseTitle();
-//   const [books, setBooks] = useState([]);
-//   const [filteredBooks, setFilteredBooks] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [view, setView] = useState("Card"); // State for toggle view
-//   const { user } = useContext(AuthContext);
-
-//   // Fetch all books
-//   useEffect(() => {
-//     axios
-//       .get("http://localhost:5000/all-books", {
-//         params: { email: user.email },
-//         withCredentials: true,
-//       })
-//       .then((res) => {
-//         setBooks(res.data);
-//         setFilteredBooks(res.data);
-//         setLoading(false);
-//       })
-//       .catch((error) => {
-//         setError("Error fetching books");
-//         setLoading(false);
-//       });
-//   }, [user.email]);
-
-//   // Function to change view
-//   const handleViewChange = (e) => {
-//     setView(e.target.value);
-//   };
-
-//   return (
-//     <div className="container mx-auto p-4">
-//       <h1 className="text-2xl font-bold mb-4">All Books</h1>
-
-//       {/* Dropdown for Toggle View */}
-//       <div className="flex justify-between items-center mb-4">
-//         <div>
-//           <label htmlFor="view" className="mr-2 font-semibold">
-//             Select View:
-//           </label>
-//           <select
-//             id="view"
-//             value={view}
-//             onChange={handleViewChange}
-//             className="border py-2 px-3 rounded"
-//           >
-//             <option value="Card">Card View</option>
-//             <option value="Table">Table View</option>
-//           </select>
-//         </div>
-//       </div>
-
-//       {/* Loading and Error Messages */}
-//       {loading && <p className="text-center">Loading books...</p>}
-//       {error && <p className="text-center text-red-600">{error}</p>}
-
-//       {/* Conditionally Render Views */}
-//       {view === "Card" ? (
-//         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-//           {filteredBooks.map((book) => (
-//             <div
-//               key={book._id}
-//               className="border rounded-lg shadow-md p-4 bg-white"
-//             >
-//               <img
-//                 src={book.image}
-//                 alt={book.name}
-//                 className="w-full h-48 object-cover rounded-md"
-//               />
-//               <h2 className="text-lg font-semibold mt-2">{book.name}</h2>
-//               <p className="text-sm text-gray-600">Author: {book.author}</p>
-//               <p className="text-sm text-gray-600">Category: {book.category}</p>
-//               <p className="text-sm text-gray-600">Rating: {book.rating}/5</p>
-//               <p className="text-sm text-gray-600">Quantity: {book.quantity}</p>
-
-//               <Link to={`/update-book/${book._id}`}>
-//                 <button className="mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
-//                   Update
-//                 </button>
-//               </Link>
-//             </div>
-//           ))}
-//         </div>
-//       ) : (
-//         <div className="overflow-x-auto">
-//           <table className="min-w-full bg-white border rounded-lg shadow-md">
-//             <thead>
-//               <tr>
-//                 <th className="px-4 py-2 border-b">Name</th>
-//                 <th className="px-4 py-2 border-b">Author</th>
-//                 <th className="px-4 py-2 border-b">Category</th>
-//                 <th className="px-4 py-2 border-b">Rating</th>
-//                 <th className="px-4 py-2 border-b">Quantity</th>
-//                 <th className="px-4 py-2 border-b">Actions</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {filteredBooks.map((book) => (
-//                 <tr key={book._id} className="border-b">
-//                   <td className="px-4 py-2">{book.name}</td>
-//                   <td className="px-4 py-2">{book.author}</td>
-//                   <td className="px-4 py-2">{book.category}</td>
-//                   <td className="px-4 py-2">{book.rating}/5</td>
-//                   <td className="px-4 py-2">{book.quantity}</td>
-//                   <td className="px-4 py-2">
-//                     <Link to={`/update-book/${book._id}`}>
-//                       <button className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
-//                         Update
-//                       </button>
-//                     </Link>
-//                   </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default AllBooks;
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useContext } from "react";
 import { AuthContext } from "./Provider/AuthProvider";
 import UseTitle from "./Title/UseTitle";
+import { ClipLoader } from "react-spinners"; // Import spinner
 
 const AllBooks = () => {
   UseTitle();
@@ -315,12 +84,18 @@ const AllBooks = () => {
         </button>
       </div>
 
-      {/* Loading and Error Messages */}
-      {loading && <p className="text-center">Loading books...</p>}
+      {/* Loading Spinner */}
+      {loading && (
+        <div className="flex justify-center items-center">
+          <ClipLoader size={50} color="#4A90E2" />
+        </div>
+      )}
+
+      {/* Error Message */}
       {error && <p className="text-center text-red-600">{error}</p>}
 
       {/* Conditionally Render Views */}
-      {view === "Card" ? (
+      {!loading && view === "Card" ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {filteredBooks.map((book) => (
             <div
@@ -347,38 +122,40 @@ const AllBooks = () => {
           ))}
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border rounded-lg shadow-md">
-            <thead>
-              <tr>
-                <th className="px-4 py-2 border-b">Name</th>
-                <th className="px-4 py-2 border-b">Author</th>
-                <th className="px-4 py-2 border-b">Category</th>
-                <th className="px-4 py-2 border-b">Rating</th>
-                <th className="px-4 py-2 border-b">Quantity</th>
-                <th className="px-4 py-2 border-b">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredBooks.map((book) => (
-                <tr key={book._id} className="border-b">
-                  <td className="px-4 py-2">{book.name}</td>
-                  <td className="px-4 py-2">{book.author}</td>
-                  <td className="px-4 py-2">{book.category}</td>
-                  <td className="px-4 py-2">{book.rating}/5</td>
-                  <td className="px-4 py-2">{book.quantity}</td>
-                  <td className="px-4 py-2">
-                    <Link to={`/update-book/${book._id}`}>
-                      <button className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
-                        Update
-                      </button>
-                    </Link>
-                  </td>
+        !loading && (
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white border rounded-lg shadow-md">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2 border-b">Name</th>
+                  <th className="px-4 py-2 border-b">Author</th>
+                  <th className="px-4 py-2 border-b">Category</th>
+                  <th className="px-4 py-2 border-b">Rating</th>
+                  <th className="px-4 py-2 border-b">Quantity</th>
+                  <th className="px-4 py-2 border-b">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {filteredBooks.map((book) => (
+                  <tr key={book._id} className="border-b">
+                    <td className="px-4 py-2">{book.name}</td>
+                    <td className="px-4 py-2">{book.author}</td>
+                    <td className="px-4 py-2">{book.category}</td>
+                    <td className="px-4 py-2">{book.rating}/5</td>
+                    <td className="px-4 py-2">{book.quantity}</td>
+                    <td className="px-4 py-2">
+                      <Link to={`/update-book/${book._id}`}>
+                        <button className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+                          Update
+                        </button>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )
       )}
     </div>
   );
