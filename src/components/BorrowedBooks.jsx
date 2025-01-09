@@ -3,12 +3,14 @@ import axios from "axios";
 import { AuthContext } from "./Provider/AuthProvider";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UseTitle from "./Title/UseTitle";
 
 const BorrowedBooks = () => {
   const { user } = useContext(AuthContext);
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  UseTitle();
   //console.log(borrowedBooks);
 
   useEffect(() => {

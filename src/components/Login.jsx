@@ -6,8 +6,10 @@ import { AuthContext } from "./Provider/AuthProvider";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "./Firebase/Firebase_init";
 import axios from "axios";
+import UseTitle from "./Title/UseTitle";
 
 const Login = () => {
+  UseTitle();
   const { loginUser, loading, error, setError } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();

@@ -2,6 +2,7 @@ import "react-toastify/dist/ReactToastify.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import UseTitle from "./Title/UseTitle";
 
 const AddBook = () => {
   const [bookData, setBookData] = useState({
@@ -21,34 +22,6 @@ const AddBook = () => {
     const { name, value } = e.target;
     setBookData({ ...bookData, [name]: value });
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const response = await fetch("http://localhost:5000/add-book", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(bookData),
-  //     });
-
-  //     const responseData = await response.json(); // Parse response JSON
-  //     console.log("Response Data:", responseData); // Log the parsed data
-
-  //     if (response.ok) {
-  //       toast.success("Book added successfully!");
-  //       setTimeout(() => navigate("/all-books"), 2000);
-  //     } else {
-  //       console.log("Server Error:", responseData); // Log error from the server
-  //       toast.error("Failed to add book.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Fetch Error:", error); // Catch and log fetch errors
-  //     toast.error("An error occurred. Please try again.");
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,6 +60,7 @@ const AddBook = () => {
       toast.error("An error occurred. Please try again.");
     }
   };
+  UseTitle();
 
   return (
     <div className="container mx-auto p-4">
