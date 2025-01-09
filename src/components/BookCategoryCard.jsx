@@ -5,7 +5,7 @@ const BookCategoryCard = ({ category }) => {
   return (
     <div className="category-card bg-white border p-6 rounded-lg shadow-lg text-center">
       <img
-        src={`images/${category.toLowerCase()}.jpg`} // Ensure that your image path corresponds to the category
+        src={`images/${category}.jpg`}
         alt={category}
         className="w-full h-40 object-cover rounded-lg mb-4"
       />
