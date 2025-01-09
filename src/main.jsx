@@ -15,6 +15,7 @@ import UpdateBook from "./components/UpdateBook.jsx";
 import CategoryPage from "./components/CategoryPage.jsx";
 import DetailsPage from "./components/DetailsPage.jsx";
 import BorrowedBooks from "./components/BorrowedBooks.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -36,27 +37,51 @@ const router = createBrowserRouter([
       },
       {
         path: "/add-book",
-        element: <AddBook></AddBook>,
+        element: (
+          <PrivateRoute>
+            <AddBook></AddBook>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/all-books",
-        element: <AllBooks></AllBooks>,
+        element: (
+          <PrivateRoute>
+            <AllBooks></AllBooks>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/update-book/:id",
-        element: <UpdateBook></UpdateBook>,
+        element: (
+          <PrivateRoute>
+            <UpdateBook></UpdateBook>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/category/:category",
-        element: <CategoryPage></CategoryPage>,
+        element: (
+          <PrivateRoute>
+            <CategoryPage></CategoryPage>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/book-details/:id",
-        element: <DetailsPage></DetailsPage>,
+        element: (
+          <PrivateRoute>
+            <DetailsPage></DetailsPage>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/borrowed-books",
-        element: <BorrowedBooks></BorrowedBooks>,
+        element: (
+          <PrivateRoute>
+            <BorrowedBooks></BorrowedBooks>
+          </PrivateRoute>
+        ),
       },
     ],
   },

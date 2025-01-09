@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "./Provider/AuthProvider";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const BorrowedBooks = () => {
@@ -9,6 +9,7 @@ const BorrowedBooks = () => {
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  //console.log(borrowedBooks);
 
   useEffect(() => {
     if (user && user.uid) {
@@ -21,8 +22,14 @@ const BorrowedBooks = () => {
               withCredentials: true, // Ensures cookies are sent
             }
           );
+          console.log(response);
 
-          setBorrowedBooks(response.data);
+          if (response.data && response.data.length > 0) {
+            setBorrowedBooks(response.data);
+          } else {
+            setBorrowedBooks([]); // Set an empty array if no books are found
+            //console.log(borrowedBooks);
+          }
           setLoading(false);
         } catch (err) {
           setError("Error fetching borrowed books");
@@ -34,6 +41,30 @@ const BorrowedBooks = () => {
     }
   }, [user]);
 
+  const handleReturnBook = async (bookId) => {
+    try {
+      // Send a request to return the book
+      const response = await axios.post(
+        `http://localhost:5000/returnbook`,
+        { bookId, uid: user.uid, email: user.email },
+        { withCredentials: true }
+      );
+
+      if (response.data.success) {
+        // Remove the returned book from the state
+        setBorrowedBooks((prevBooks) =>
+          prevBooks.filter((book) => book.bookId !== bookId)
+        );
+
+        toast.success("Book returned successfully!");
+      } else {
+        toast.error("Failed to return the book.");
+      }
+    } catch (err) {
+      toast.error("Error returning the book.");
+    }
+  };
+
   if (loading)
     return (
       <p className="text-center text-blue-600">Loading borrowed books...</p>
@@ -42,6 +73,7 @@ const BorrowedBooks = () => {
 
   return (
     <div className="container mx-auto p-6">
+      <ToastContainer></ToastContainer>
       <h2 className="text-3xl font-bold text-center text-indigo-600 mb-8">
         My Borrowed Books
       </h2>
@@ -69,6 +101,12 @@ const BorrowedBooks = () => {
               <p className="text-sm text-gray-600 mt-2">
                 Return Date: {new Date(book.returnDate).toLocaleDateString()}
               </p>
+              <button
+                onClick={() => handleReturnBook(book.bookId)}
+                className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+              >
+                Return Book
+              </button>
             </div>
           ))
         )}
