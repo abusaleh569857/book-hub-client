@@ -15,7 +15,7 @@ const CategoryPage = () => {
     const fetchBooks = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/books/category/${category}`
+          `https://library-management-system-server-sand.vercel.app/books/category/${category}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch books");

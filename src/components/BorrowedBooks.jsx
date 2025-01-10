@@ -18,7 +18,7 @@ const BorrowedBooks = () => {
       const fetchBorrowedBooks = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/borrowedbooks`,
+            `https://library-management-system-server-sand.vercel.app/borrowedbooks`,
             {
               params: { uid: user.uid, email: user.email },
               withCredentials: true, // Ensures cookies are sent
@@ -47,7 +47,7 @@ const BorrowedBooks = () => {
     try {
       // Send a request to return the book
       const response = await axios.post(
-        `http://localhost:5000/returnbook`,
+        `https://library-management-system-server-sand.vercel.app/returnbook`,
         { bookId, uid: user.uid, email: user.email },
         { withCredentials: true }
       );

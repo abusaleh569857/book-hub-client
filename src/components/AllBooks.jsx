@@ -18,10 +18,13 @@ const AllBooks = () => {
   // Fetch all books
   useEffect(() => {
     axios
-      .get("http://localhost:5000/all-books", {
-        params: { email: user.email },
-        withCredentials: true,
-      })
+      .get(
+        "https://library-management-system-server-sand.vercel.app/all-books",
+        {
+          params: { email: user.email },
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         setBooks(res.data);
         setFilteredBooks(res.data);

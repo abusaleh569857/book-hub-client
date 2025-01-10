@@ -65,7 +65,7 @@
 //           borrowedBooks: [],
 //         };
 
-//         const response = await fetch("http://localhost:5000/users", {
+//         const response = await fetch("https://library-management-system-server-sand.vercel.app/users", {
 //           method: "POST",
 //           headers: {
 //             "Content-Type": "application/json",
@@ -103,7 +103,7 @@
 //         borrowedBooks: [],
 //       };
 
-//       const response = await fetch("http://localhost:5000/users", {
+//       const response = await fetch("https://library-management-system-server-sand.vercel.app/users", {
 //         method: "POST",
 //         headers: {
 //           "Content-Type": "application/json",
@@ -309,13 +309,16 @@ const Register = () => {
           borrowedBooks: [],
         };
 
-        const response = await fetch("http://localhost:5000/users", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userData),
-        });
+        const response = await fetch(
+          "https://library-management-system-server-sand.vercel.app/users",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userData),
+          }
+        );
 
         const data = await response.json();
         if (data.insertedId) {
@@ -347,13 +350,16 @@ const Register = () => {
         borrowedBooks: [],
       };
 
-      const response = await fetch("http://localhost:5000/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
+      const response = await fetch(
+        "https://library-management-system-server-sand.vercel.app/users",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
 
       const data = await response.json();
       if (data.insertedId) {

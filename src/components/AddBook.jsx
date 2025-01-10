@@ -38,13 +38,16 @@ const AddBook = () => {
     console.log("Updated Book Data:", updatedBookData); // Log the updated data
 
     try {
-      const response = await fetch("http://localhost:5000/add-book", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedBookData), // Send the updated data
-      });
+      const response = await fetch(
+        "https://library-management-system-server-sand.vercel.app/add-book",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedBookData), // Send the updated data
+        }
+      );
 
       const responseData = await response.json(); // Parse response JSON
       console.log("Response Data:", responseData); // Log the parsed data

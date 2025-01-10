@@ -17,7 +17,7 @@ const UpdateBook = () => {
 
   // Fetch book data
   useEffect(() => {
-    fetch(`http://localhost:5000/book/${id}`)
+    fetch(`https://library-management-system-server-sand.vercel.app/book/${id}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch book data.");
@@ -49,13 +49,16 @@ const UpdateBook = () => {
     delete updatedBook._id; // Remove _id before sending
 
     try {
-      const response = await fetch(`http://localhost:5000/books/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedBook), // Send updatedBook without _id
-      });
+      const response = await fetch(
+        `https://library-management-system-server-sand.vercel.app/books/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedBook), // Send updatedBook without _id
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update book.");

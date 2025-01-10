@@ -21,7 +21,9 @@ const DetailsPage = () => {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/allbooks/${id}`);
+        const response = await fetch(
+          `https://library-management-system-server-sand.vercel.app/allbooks/${id}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch book details");
         }
@@ -48,31 +50,37 @@ const DetailsPage = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/borrowedbooks`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firebaseUID: user.uid,
-          email: user.email,
-          bookId: book._id,
-          bookName: book.name,
-          author: book.author,
-          category: book.category,
-          image: book.image,
-          quantity: 1,
-          returnDate,
-        }),
-      });
+      const response = await fetch(
+        `https://library-management-system-server-sand.vercel.app/borrowedbooks`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firebaseUID: user.uid,
+            email: user.email,
+            bookId: book._id,
+            bookName: book.name,
+            author: book.author,
+            category: book.category,
+            image: book.image,
+            quantity: 1,
+            returnDate,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to borrow the book");
       }
 
-      await fetch(`http://localhost:5000/books/decrement/${book._id}`, {
-        method: "PUT",
-      });
+      await fetch(
+        `https://library-management-system-server-sand.vercel.app/books/decrement/${book._id}`,
+        {
+          method: "PUT",
+        }
+      );
 
       toast.success("Book borrowed successfully!");
 

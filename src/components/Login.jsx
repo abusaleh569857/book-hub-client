@@ -31,9 +31,13 @@ const Login = () => {
       const result = await loginUser(email, password);
       if (result && result.user) {
         const user = { email: result.user.email };
-        const res = await axios.post("http://localhost:5000/login", user, {
-          withCredentials: true,
-        });
+        const res = await axios.post(
+          "https://library-management-system-server-sand.vercel.app/login",
+          user,
+          {
+            withCredentials: true,
+          }
+        );
         console.log("Login successful:", res.data);
         navigate("/");
       } else {
@@ -54,7 +58,7 @@ const Login = () => {
       if (user) {
         const userData = { email: user.email, name: user.displayName };
         const res = await axios.post(
-          "http://localhost:5000/google-login",
+          "https://library-management-system-server-sand.vercel.app/google-login",
           userData,
           {
             withCredentials: true,

@@ -45,7 +45,7 @@ const AuthProvider = ({ children }) => {
     try {
       // Send a request to the server to clear the JWT cookie
       await axios.post(
-        "http://localhost:5000/logout",
+        "https://library-management-system-server-sand.vercel.app/logout",
         {},
         { withCredentials: true }
       );
