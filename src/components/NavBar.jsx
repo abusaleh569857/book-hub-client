@@ -36,21 +36,21 @@ const Navbar = () => {
         >
           <NavLink
             to="/"
-            className="block py-2 px-4 lg:inline-block hover:text-blue-200"
+            className="block py-2 px-4 lg:inline-block hover:text-blue-200 border-2 border-transparent hover:border-white rounded-md"
             onClick={() => setMenuOpen(false)}
           >
             Home
           </NavLink>
           <NavLink
             to="/all-books"
-            className="block py-2 px-4 lg:inline-block hover:text-blue-200"
+            className="block py-2 px-4 lg:inline-block hover:text-blue-200 border-2 border-transparent hover:border-white rounded-md"
             onClick={() => setMenuOpen(false)}
           >
             All Books
           </NavLink>
           <NavLink
             to="/upcoming-books"
-            className="block py-2 px-4 lg:inline-block hover:text-blue-200"
+            className="block py-2 px-4 lg:inline-block hover:text-blue-200 border-2 border-transparent hover:border-white rounded-md"
             onClick={() => setMenuOpen(false)}
           >
             Upcoming Books
@@ -59,14 +59,14 @@ const Navbar = () => {
             <>
               <NavLink
                 to="/add-book"
-                className="block py-2 px-4 lg:inline-block hover:text-blue-200"
+                className="block py-2 px-4 lg:inline-block hover:text-blue-200 border-2 border-transparent hover:border-white rounded-md"
                 onClick={() => setMenuOpen(false)}
               >
                 Add Book
               </NavLink>
               <NavLink
                 to="/borrowed-books"
-                className="block py-2 px-4 lg:inline-block hover:text-blue-200"
+                className="block py-2 px-4 lg:inline-block hover:text-blue-200 border-2 border-transparent hover:border-white rounded-md"
                 onClick={() => setMenuOpen(false)}
               >
                 Borrowed Books
@@ -81,13 +81,13 @@ const Navbar = () => {
             <>
               <Link
                 to="/login"
-                className="btn btn-sm btn-outline border-white hover:bg-white hover:text-blue-600 mr-3 md:mr-0"
+                className="btn btn-sm btn-outline border-white hover:bg-white hover:text-blue-600 mr-3 md:mr-0 border-2 border-white text-white rounded-md py-2 px-4"
               >
                 Login
               </Link>
               <Link
                 to="/register"
-                className="hidden md:flex btn btn-sm btn-outline border-white hover:bg-white hover:text-blue-600"
+                className="hidden md:flex btn btn-sm btn-outline border-white hover:bg-white hover:text-blue-600 border-2 border-white text-white rounded-md py-2 px-4"
               >
                 Register
               </Link>
@@ -103,7 +103,7 @@ const Navbar = () => {
                 <p className="font-semibold">{user.displayName}</p>
                 <button
                   onClick={handleLogout}
-                  className="btn btn-sm btn-outline border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white mt-2"
+                  className="btn btn-sm btn-outline border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white mt-2 border-2 border-blue-600 text-blue-600 rounded-md py-2 px-4"
                 >
                   Logout
                 </button>
