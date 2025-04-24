@@ -1,5 +1,5 @@
 import React from "react";
-import { FaStar } from "react-icons/fa"; // For displaying stars as rating
+import { FaStar } from "react-icons/fa";
 
 const reviewsData = [
   {
