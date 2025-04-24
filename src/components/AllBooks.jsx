@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "./Provider/AuthProvider";
 import UseTitle from "./Title/UseTitle";
-import { ClipLoader } from "react-spinners"; // Import spinner
+import { ClipLoader } from "react-spinners";
 
 const AllBooks = () => {
   UseTitle();
@@ -11,8 +11,9 @@ const AllBooks = () => {
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [view, setView] = useState("Card"); // State for toggle view
-  const [showAvailable, setShowAvailable] = useState(false); // State for filtering available books
+  const [view, setView] = useState("Card");
+  const [showAvailable, setShowAvailable] = useState(false);
+  const [sortOrder, setSortOrder] = useState("asc");
   const { user } = useContext(AuthContext);
 
   // Fetch all books
@@ -44,14 +45,26 @@ const AllBooks = () => {
   // Handle Show Available Books Filter
   const toggleShowAvailable = () => {
     if (showAvailable) {
-      // Reset to show all books
       setFilteredBooks(books);
     } else {
-      // Show only available books
       const availableBooks = books.filter((book) => book.quantity > 0);
       setFilteredBooks(availableBooks);
     }
     setShowAvailable(!showAvailable);
+  };
+
+  // Handle Sort Order Change from Dropdown
+  const handleSortChange = (e) => {
+    const order = e.target.value;
+    setSortOrder(order);
+
+    const sortedBooks = [...filteredBooks].sort((a, b) => {
+      return order === "asc"
+        ? a.quantity - b.quantity
+        : b.quantity - a.quantity;
+    });
+
+    setFilteredBooks(sortedBooks);
   };
 
   return (
@@ -59,8 +72,8 @@ const AllBooks = () => {
       <h1 className="text-2xl font-bold mb-4">All Books</h1>
 
       {/* Controls for View and Filter */}
-      <div className="flex justify-between items-center mb-4">
-        {/* Toggle View Dropdown */}
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
+        {/* View Toggle */}
         <div>
           <label htmlFor="view" className="mr-2 font-semibold">
             Select View:
@@ -76,28 +89,42 @@ const AllBooks = () => {
           </select>
         </div>
 
+        {/* Sort by Quantity */}
+        <div>
+          <label htmlFor="sort" className="mr-2 font-semibold">
+            Sort by Quantity:
+          </label>
+          <select
+            id="sort"
+            value={sortOrder}
+            onChange={handleSortChange}
+            className="border py-2 px-3 rounded"
+          >
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
+
         {/* Show Available Books Button */}
         <button
           onClick={toggleShowAvailable}
-          className={`py-2 px-4 rounded font-semibold ${
-            showAvailable ? "bg-red-600 text-white" : "bg-green-600 text-white"
-          }`}
+          className="py-2 px-4 rounded font-semibold bg-blue-600 text-white"
         >
           {showAvailable ? "Show All Books" : "Show Available Books"}
         </button>
       </div>
 
-      {/* Loading Spinner */}
+      {/* Loading */}
       {loading && (
         <div className="flex justify-center items-center">
           <ClipLoader size={50} color="#4A90E2" />
         </div>
       )}
 
-      {/* Error Message */}
+      {/* Error */}
       {error && <p className="text-center text-red-600">{error}</p>}
 
-      {/* Conditionally Render Views */}
+      {/* Views */}
       {!loading && view === "Card" ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {filteredBooks.map((book) => (
