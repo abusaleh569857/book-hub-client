@@ -11,7 +11,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-blue-600 text-white shadow-md">
+    <nav className="bg-blue-600 text-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center relative">
         {/* Hamburger Menu for Mobile & Tablet */}
         <div
@@ -48,6 +48,13 @@ const Navbar = () => {
           >
             All Books
           </NavLink>
+          <NavLink
+            to="/upcoming-books"
+            className="block py-2 px-4 lg:inline-block hover:text-blue-200"
+            onClick={() => setMenuOpen(false)}
+          >
+            Upcoming Books
+          </NavLink>
           {user && (
             <>
               <NavLink
@@ -74,7 +81,7 @@ const Navbar = () => {
             <>
               <Link
                 to="/login"
-                className="btn btn-sm btn-outline border-white hover:bg-white hover:text-blue-600"
+                className="btn btn-sm btn-outline border-white hover:bg-white hover:text-blue-600 mr-3 md:mr-0"
               >
                 Login
               </Link>

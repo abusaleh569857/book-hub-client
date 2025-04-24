@@ -16,6 +16,7 @@ import CategoryPage from "./components/CategoryPage.jsx";
 import DetailsPage from "./components/DetailsPage.jsx";
 import BorrowedBooks from "./components/BorrowedBooks.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import UpcomingBookReleases from "./components/UpcomingBookReleases.jsx";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login></Login>,
+      },
+      {
+        path: "/upcoming-books",
+        element: <UpcomingBookReleases></UpcomingBookReleases>,
       },
       {
         path: "/add-book",
