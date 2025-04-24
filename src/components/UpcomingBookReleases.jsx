@@ -42,8 +42,8 @@ const UpcomingBookReleases = () => {
   ];
 
   return (
-    <section className="upcoming-releases bg-gray-100 py-12">
-      <h2 className="text-3xl text-center mb-8">Upcoming Book Releases</h2>
+    <section className="upcoming-releases bg-gray-100 py-12 dark:bg-gray-800">
+      <h2 className="text-3xl text-center mb-8 ">Upcoming Book Releases</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4 overflow-hidden">
         {upcomingBooks.map((book, index) => (
           <div

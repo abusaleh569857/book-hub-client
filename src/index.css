@@ -1,3 +1,18 @@
+/* In your global CSS (or Tailwind config) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    /* Default (light mode) styles */
+    background-color: white;
+    color: black;
+  }
+
+  /* Dark mode styles */
+  html.dark {
+    background-color: #121212;
+    color: white;
+  }
+}
