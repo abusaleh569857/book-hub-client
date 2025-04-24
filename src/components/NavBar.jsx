@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "./Provider/AuthProvider";
-
+import ThemeToggle from "./ThemeToggle";
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -74,6 +74,9 @@ const Navbar = () => {
             </>
           )}
         </div>
+
+        {/* Add the ThemeToggle button here */}
+        <ThemeToggle />
 
         {/* User Authentication/Profile Section */}
         <div className="absolute right-0 top-3 lg:static flex items-center space-x-4">
